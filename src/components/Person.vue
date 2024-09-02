@@ -5,7 +5,7 @@
     </div>
     <div class="h-full flex gap-4 px-10 mt-5 overflow-x-auto no-scrollbar">
       <div v-if="perLoading === true" class="w-full flex justify-center items-center h-[200px]">
-        <p>Loading...</p>
+        <LoadingIcon />
       </div>
       <div v-else v-for="person in dataPerson" key="mov.id" class="w-[150px] flex-shrink-0">
         <img class="shadow-lg w-full h-[220px] object-cover rounded-xl mb-3" :src="imageUrl + person.profile_path" alt="" />
@@ -24,14 +24,15 @@
 <script setup>
 import { useMovieStore } from "@/stores/movie";
 import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
+import LoadingIcon from "./icons/LoadingIcon.vue";
 
 const person = useMovieStore();
 
 const { dataPerson, imageUrl, perLoading } = storeToRefs(person);
 
-// const personBtn = (stat) => {
-//   person.personBtn(stat);
-// };
-
-person.person();
+onMounted(() => {
+  scrollTo(0, 0);
+}),
+  person.person();
 </script>

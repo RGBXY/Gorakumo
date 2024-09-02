@@ -8,14 +8,14 @@
       </div>
     </div>
     <div class="h-full flex gap-4 mt-5 px-10 overflow-scroll no-scrollbar">
-      <div v-if="trenLoading === true && dataTrending" class="w-full flex justify-center items-center h-[200px]">
-        <p>Loading...</p>
+      <div v-if="trenLoading === true" class="w-full flex justify-center items-center h-[200px]">
+        <LoadingIcon />
       </div>
       <div v-else v-for="mov in dataTrending" key="mov.id" class="w-[150px] flex-shrink-0">
         <img class="shadow-lg w-full h-[220px] object-cover rounded-xl mb-3" :src="imageUrl + mov.poster_path" alt="" />
         <div class="px-2">
-          <p v-if="mov.original_title" class="text-base font-semibold">{{ mov.original_title }}</p>
-          <p v-else class="text-base font-semibold">{{ mov.name }}</p>
+          <RouterLink :to="{ name: 'detail', params: { id: mov.id, url: 'movie' } }" v-if="mov.original_title" class="text-base font-semibold">{{ mov.original_title }}</RouterLink>
+          <RouterLink :to="{ name: 'detail', params: { id: mov.id, url: 'tv' } }" v-else class="text-base font-semibold">{{ mov.name }}</RouterLink>
           <p v-if="mov.release_date" class="text-xs mt-1 font-semibold text-slate-600">{{ mov.release_date }}</p>
           <p v-else class="text-xs mt-1 font-semibold text-slate-600">{{ mov.first_air_date }}</p>
         </div>
@@ -27,6 +27,7 @@
 <script setup>
 import { useMovieStore } from "@/stores/movie";
 import { storeToRefs } from "pinia";
+import LoadingIcon from "./icons/LoadingIcon.vue";
 
 const trending = useMovieStore();
 

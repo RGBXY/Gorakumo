@@ -7,14 +7,18 @@ export const useMovieStore = defineStore("movie", {
     dataUpCom: [],
     dataTrending: [],
     dataUpComVid: [],
+    dataDetail: [],
     dataPerson: [],
+    dataCast: [],
     modalVid: false,
     popLoading: false,
     trenLoading: false,
     upLoading: false,
     perLoading: false,
+    castLoading: false,
+    detLoading: false,
     apiKey: import.meta.env.VITE_API_KEY_URL,
-    imageUrl: "https://image.tmdb.org/t/p/original/",
+    imageUrl: import.meta.env.VITE_IMG_URL,
     trendingUrl: "day",
     popularUrl: "movie",
   }),
@@ -24,7 +28,6 @@ export const useMovieStore = defineStore("movie", {
         this.popLoading = true;
         const response = await axios.get(`/${this.popularUrl}/popular?api_key=${this.apiKey}`);
         this.dataPopular = response.data.results;
-        console.log(this.dataPopular);
       } catch {
         if (error) {
           console.error(error);
@@ -49,18 +52,31 @@ export const useMovieStore = defineStore("movie", {
       }
     },
 
-    async person() {
+    async cast(movieUrl, movieId) {
       try {
-        this.perLoading = true;
-        const response = await axios.get(`/person/popular?api_key=${this.apiKey}`);
-        this.dataPerson = response.data.results;
-        console.log(this.dataPerson);
+        this.castLoading = true;
+        const response = await axios.get(`/${movieUrl}/${movieId}/credits?api_key=${this.apiKey}`);
+        this.dataCast = response.data.cast;
       } catch {
         if (error) {
           console.error(error);
         }
       } finally {
-        this.perLoading = false;
+        this.castLoading = false;
+      }
+    },
+
+    async person() {
+      try {
+        this.detLoading = true;
+        const response = await axios.get(`/person/popular?api_key=${this.apiKey}`);
+        this.dataPerson = response.data.results;
+      } catch {
+        if (error) {
+          console.error(error);
+        }
+      } finally {
+        this.detLoading = false;
       }
     },
 
@@ -77,6 +93,18 @@ export const useMovieStore = defineStore("movie", {
       }
     },
 
+    async detail(movieUrl, movieId) {
+      try {
+        this.detLoading = true;
+        const response = await axios.get(`${movieUrl}/${movieId}?api_key=${this.apiKey}`);
+        this.dataDetail = response.data;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.detLoading = false;
+      }
+    },
+
     trendingBtn(stat) {
       this.trendingUrl = stat;
       this.trending();
@@ -87,9 +115,9 @@ export const useMovieStore = defineStore("movie", {
       this.populer();
     },
 
-    async getMovieId(id) {
+    async getMovieId(url, id) {
       try {
-        const response = await axios.get(`/movie/${id}/videos?api_key=${this.apiKey}`);
+        const response = await axios.get(`/${url}/${id}/videos?api_key=${this.apiKey}`);
         this.dataUpComVid = response.data.results[0].key;
         this.modalVid = true;
       } catch {

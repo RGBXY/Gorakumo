@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10 min-h-[400px] ">
+  <div class="mt-10 min-h-[400px]">
     <div class="flex justify-between px-10">
       <h1 class="font-semibold">Popular</h1>
       <div class="flex text-base border border-0-primary rounded-full">
@@ -9,7 +9,7 @@
     </div>
     <div class="h-full flex gap-4 mt-5 px-10 overflow-x-auto no-scrollbar">
       <div v-if="popLoading === true" class="w-full flex justify-center items-center h-[200px]">
-        <p>Loading...</p>
+        <LoadingIcon />
       </div>
       <div v-else v-for="mov in dataPopular" key="mov.id" class="w-[150px] flex-shrink-0">
         <img class="shadow-lg w-full h-[220px] object-cover rounded-xl mb-3" :src="imageUrl + mov.poster_path" alt="" />
@@ -27,6 +27,7 @@
 <script setup>
 import { useMovieStore } from "@/stores/movie";
 import { storeToRefs } from "pinia";
+import LoadingIcon from "./icons/LoadingIcon.vue";
 
 const popular = useMovieStore();
 

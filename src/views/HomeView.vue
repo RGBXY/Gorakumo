@@ -1,5 +1,5 @@
 <template>
-  <div class="text-2xl pt-[4.5rem]">
+  <div class="text-2xl pt-[4.5rem] max-w-[1500px] mx-auto">
     <div class="px-10 h-[340px] relative text-white">
       <img class="absolute left-0 object-cover w-full h-full" src="https://cdn.antaranews.com/cache/1200x800/2023/07/09/shangchimovarthc_case-38.jpg" alt="" />
       <div class="w-full h-full absolute top-0 left-0 bg-[#032541] opacity-70"></div>
