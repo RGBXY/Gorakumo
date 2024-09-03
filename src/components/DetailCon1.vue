@@ -1,5 +1,5 @@
 <template>
-  <div v-if="detLoading" class="pt-20 flex justify-center items-start w-full min-h-screen">
+  <div v-if="det1Loading" class="pt-20 flex justify-center items-start w-full min-h-screen">
     <LoadingIcon />
   </div>
   <div v-else :class="`w-full h-[90vh] py-14 px-10 bg-cover relative bg-center`" :style="{ backgroundImage: `url('${imageUrl + dataDetail.backdrop_path}')` }">
@@ -51,7 +51,7 @@
 <script setup>
 import { useMovieStore } from "@/stores/movie";
 import { storeToRefs } from "pinia";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { PhPlay, PhHeart, PhListDashes, PhBookmarkSimple } from "@phosphor-icons/vue";
 import LoadingIcon from "./icons/LoadingIcon.vue";
@@ -61,7 +61,7 @@ const route = useRoute();
 const movieId = route.params.id;
 const movieUrl = route.params.url;
 
-const { dataDetail, imageUrl, detLoading } = storeToRefs(detail);
+const { dataDetail, imageUrl, det1Loading } = storeToRefs(detail);
 
 onMounted(() => {
   if (movieId) {
@@ -84,7 +84,9 @@ const formattedPercentage = computed(() => {
   return "0%"; // Fallback value if undefined or null
 });
 
-if (value.value >= 10) {
-  console.log("90");
-}
+watchEffect(() => {
+  const movieId = route.params.id;
+  const movieUrl = route.params.url;
+  detail.detail(movieUrl, movieId); // Assuming this fetches the data
+});
 </script>

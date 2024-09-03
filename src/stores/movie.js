@@ -10,13 +10,15 @@ export const useMovieStore = defineStore("movie", {
     dataDetail: [],
     dataPerson: [],
     dataCast: [],
+    dataKeywords: [],
+    dataRecomen: [],
     modalVid: false,
     popLoading: false,
     trenLoading: false,
     upLoading: false,
     perLoading: false,
-    castLoading: false,
-    detLoading: false,
+    det1Loading: false,
+    det2Loading: false,
     apiKey: import.meta.env.VITE_API_KEY_URL,
     imageUrl: import.meta.env.VITE_IMG_URL,
     trendingUrl: "day",
@@ -54,7 +56,7 @@ export const useMovieStore = defineStore("movie", {
 
     async cast(movieUrl, movieId) {
       try {
-        this.castLoading = true;
+        this.det2Loading = true;
         const response = await axios.get(`/${movieUrl}/${movieId}/credits?api_key=${this.apiKey}`);
         this.dataCast = response.data.cast;
       } catch {
@@ -62,7 +64,7 @@ export const useMovieStore = defineStore("movie", {
           console.error(error);
         }
       } finally {
-        this.castLoading = false;
+        this.det2Loading = false;
       }
     },
 
@@ -95,13 +97,35 @@ export const useMovieStore = defineStore("movie", {
 
     async detail(movieUrl, movieId) {
       try {
-        this.detLoading = true;
+        this.det1Loading = true;
         const response = await axios.get(`${movieUrl}/${movieId}?api_key=${this.apiKey}`);
         this.dataDetail = response.data;
       } catch (error) {
         console.error(error);
       } finally {
-        this.detLoading = false;
+        this.det1Loading = false;
+      }
+    },
+
+    async keywords(movieUrl, movieId) {
+      try {
+        const response = await axios.get(`${movieUrl}/${movieId}/keywords?api_key=${this.apiKey}`);
+        if (movieUrl == "movie") {
+          this.dataKeywords = response.data.keywords;
+        } else {
+          this.dataKeywords = response.data.results;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async recomen(movieUrl, movieId) {
+      try {
+        const response = await axios.get(`${movieUrl}/${movieId}/recommendations?api_key=${this.apiKey}`);
+        this.dataRecomen = response.data.results;
+      } catch (error) {
+        console.error(error);
       }
     },
 

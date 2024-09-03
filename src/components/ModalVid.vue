@@ -7,7 +7,7 @@
         :src="`https://www.youtube.com/embed/${dataUpComVid}?autoplay=1&origin=https%3A%2F%2Fwww.themoviedb.org&hl=id&modestbranding=1&fs=1&autohide=1`"
         allowfullscreen
         frameborder="0"
-        :on-playing="!modalVid"
+        @playing="!modalVid"
       >
       </iframe>
       <div @click="closeModal" class="h-[90%] cursor-pointer absolute right-14">
