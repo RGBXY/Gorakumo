@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "@/plugin/axios";
+import { useRoute } from "vue-router";
 
 export const useMovieStore = defineStore("movie", {
   state: () => ({
@@ -12,6 +13,7 @@ export const useMovieStore = defineStore("movie", {
     dataCast: [],
     dataKeywords: [],
     dataRecomen: [],
+    dataSearch: [],
     modalVid: false,
     popLoading: false,
     trenLoading: false,
@@ -23,6 +25,8 @@ export const useMovieStore = defineStore("movie", {
     imageUrl: import.meta.env.VITE_IMG_URL,
     trendingUrl: "day",
     popularUrl: "movie",
+    searchInput: "",
+    searchFil: "",
   }),
   actions: {
     async populer() {
@@ -148,6 +152,16 @@ export const useMovieStore = defineStore("movie", {
         if (error) {
           console.error(error);
         }
+      }
+    },
+
+    async search(val, input) {
+      try {
+        const response = await axios.get(`search/${val}?query=${input}&api_key=${this.apiKey}`);
+        this.dataSearch = response.data;
+        console.log(this.dataSearch);
+      } catch (error) {
+        console.error(error);
       }
     },
 

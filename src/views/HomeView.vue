@@ -7,8 +7,10 @@
         <h1 class="text-5xl font-bold">Selamat datang</h1>
         <h1 class="text-3xl font-semibold mb-10">Millions of movies, TV shows and people to discover. Explore now.</h1>
         <div class="w-full flex bg-white rounded-full overflow-hidden">
-          <input class="w-full py-3 outline-0 text-black text-base px-5" type="text" placeholder="Cari sebuah film" />
-          <button class="bg-gradient-to-r from-[#2abbd2] to-[#04b4e3] px-8 rounded-full text-lg">Search</button>
+          <input v-model="searchInput" class="w-full py-3 outline-0 text-black text-base px-5" type="text" placeholder="Cari sebuah film" />
+          <RouterLink :to="{ name: 'search', params: { input: searchInput } }">
+            <Button class="bg-gradient-to-r from-[#2abbd2] to-[#04b4e3] px-8 h-full rounded-full text-lg">Search</Button>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -26,4 +28,10 @@ import ModalVid from "@/components/ModalVid.vue";
 import Trending from "@/components/Trending.vue";
 import UpComing from "@/components/UpComing.vue";
 import Person from "@/components/Person.vue";
+import { useMovieStore } from "@/stores/movie";
+import { storeToRefs } from "pinia";
+
+const search = useMovieStore();
+
+const { searchInput } = storeToRefs(search);
 </script>

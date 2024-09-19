@@ -7,7 +7,7 @@
     <div class="z-20 relative mb-10 flex items-center gap-12 text-white">
       <img class="w-[310px] rounded-xl" :src="imageUrl + dataDetail.poster_path" alt="" />
       <div>
-        <p class="text-4xl font-bold">{{ dataDetail.name ? dataDetail.name : dataDetail.original_title }}</p>
+        <p class="text-4xl font-bold">{{ dataDetail.name ? dataDetail.name : dataDetail.title }}</p>
         <div class="flex items-center mb-5 gap-2">
           <p>{{ dataDetail.first_air_date ? dataDetail.first_air_date : dataDetail.release_date }}</p>
           <p class="text-xs">●</p>

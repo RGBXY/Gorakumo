@@ -3,7 +3,10 @@
     <h1 class="text-2xl font-semibold">Featured Cast</h1>
     <div class="h-full flex gap-4 mt-5 overflow-x-auto no-scrollbar">
       <div v-for="cast in dataCast" :key="cast.id" class="w-[150px] flex-shrink-0">
-        <img class="shadow-lg w-full h-[220px] object-cover rounded-xl mb-3" :src="imageUrl + cast.profile_path" alt="" />
+        <img v-if="cast.profile_path !== null" class="shadow-lg w-full h-[220px] object-cover rounded-xl mb-3" :src="imageUrl + cast.profile_path" alt="" />
+        <div v-else class="shadow-lg w-full h-[220px] flex justify-center items-center border bg-slate-200 border-slate-200 object-cover rounded-xl mb-3">
+          <img class="w-[90px]" src="../../public/images/default.png" alt="" />
+        </div>
         <div class="px-2">
           <p class="text-base mb-0.5 font-bold">{{ cast.name }}</p>
           <div class="flex items-center gap-0.5">
@@ -43,4 +46,3 @@ watchEffect(() => {
   top();
 });
 </script>
-  

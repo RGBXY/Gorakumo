@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10 min-h-[400px]">
+  <div ref="observeElement" class="mt-10 min-h-[400px]">
     <div class="flex justify-between px-10">
       <h1 class="font-semibold">Popular</h1>
       <div class="flex text-base border border-0-primary rounded-full">
@@ -14,7 +14,7 @@
       <div v-else v-for="mov in dataPopular" key="mov.id" class="w-[150px] flex-shrink-0">
         <img class="shadow-lg w-full h-[220px] object-cover rounded-xl mb-3" :src="imageUrl + mov.poster_path" alt="" />
         <div class="px-2">
-          <p v-if="mov.original_title" class="text-base font-semibold">{{ mov.original_title }}</p>
+          <p v-if="mov.title" class="text-base font-semibold">{{ mov.title }}</p>
           <p v-else class="text-base font-semibold">{{ mov.name }}</p>
           <p v-if="mov.release_date" class="text-xs mt-1 font-semibold text-slate-600">{{ mov.release_date }}</p>
           <p v-else class="text-xs mt-1 font-semibold text-slate-600">{{ mov.first_air_date }}</p>
@@ -28,6 +28,7 @@
 import { useMovieStore } from "@/stores/movie";
 import { storeToRefs } from "pinia";
 import LoadingIcon from "./icons/LoadingIcon.vue";
+import { useIntersectionObserver } from "@/composables/useIntersectionObserver";
 
 const popular = useMovieStore();
 
@@ -37,5 +38,6 @@ const popularBtn = (stat) => {
   popular.popularBtn(stat);
 };
 
-popular.populer();
+const { observeElement } = useIntersectionObserver(() => popular.populer());
+
 </script>
